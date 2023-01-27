@@ -11,8 +11,13 @@ def get_min_max_depth(cam, hitnet_depth):
         print("No image detected. Please! try again")
         return
     
+    h, w, channels = image.shape
+
     half = w//2
-    dim = (160, 120)
+    
+    h = 120
+    w = 160
+    dim = (w, h)
 
     left_img = frame_image[:, :half]
     left_img = cv2.resize(left_img, dim, interpolation=cv2.INTER_NEAREST)
@@ -22,8 +27,8 @@ def get_min_max_depth(cam, hitnet_depth):
 
     h_save_space = int(h*0.30)
 
-    left_img = left_img[0:h-h_save_space, 0:half]
-    right_img = right_img[0:h-h_save_space, 0:half]
+    left_img = left_img[0:h-h_save_space, :]
+    right_img = right_img[0:h-h_save_space, :]
 
     # Estimate the depth
 

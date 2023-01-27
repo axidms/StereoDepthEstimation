@@ -8,6 +8,10 @@ hitnet_depth = HitNet(model_path, model_type)
 
 print(hitnet_depth)
 
+h = 120
+w = 160
+dim = (w, h)
+
 left_img = cv.imread("left.jpg", cv.IMREAD_UNCHANGED)
 right_img = cv.imread("right.jpg", cv.IMREAD_UNCHANGED)
 
@@ -16,8 +20,8 @@ right_img = cv.resize(right_img, dim, interpolation=cv.INTER_NEAREST)
 
 h_save_space = int(h*0.30)
 
-left_img = left_img[0:h-h_save_space, 0:half]
-right_img = right_img[0:h-h_save_space, 0:half]
+left_img = left_img[0:h-h_save_space, :]
+right_img = right_img[0:h-h_save_space, :]
 
 disparity_map = hitnet_depth(left_img, right_img)
 
