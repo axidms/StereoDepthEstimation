@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 
-RUN apt-get update 
+RUN apt-get update
 RUN apt-get upgrade -y
 
 # Install gstreamer and opencv dependencies
@@ -38,6 +38,7 @@ RUN \
     netcat
 
 RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache-dir numpy
 
 RUN git clone https://github.com/opencv/opencv.git
 
@@ -64,9 +65,6 @@ RUN cd opencv/build && make -j2 && make install && ldconfig
 COPY ./requirements.txt /requirements.txt
 RUN pip3 install --no-cache-dir -r /requirements.txt
 RUN rm /requirements.txt
-
-# RUN make install
-# RUN ldconfig
 
 COPY . /root/stereo_depth_estimation
 
