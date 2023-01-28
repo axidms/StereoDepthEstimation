@@ -8,8 +8,10 @@ def get_min_max_depth(cam, hitnet_depth):
     result, image = cam.read()
 
     if not result:
-        print("No image detected. Please! try again")
-        return
+        print(f"No image detected. Please! try again {result} {image}")
+        return 0, 0
+
+    image = cv.flip(image, 0)
     
     h, w, channels = image.shape
 
@@ -69,11 +71,15 @@ def server():
     right_udp_camera_pipe = "udpsrc address=192.168.123.13 port=9204 ! application/x-rtp,media=video,encoding-name=H264 ! rtph264depay ! h264parse ! omxh264dec ! videoconvert ! appsink"
     right_cam = cv.VideoCapture(right_udp_camera_pipe)
 
-    host = socket.gethostname()
-    port = 5000
+    host = "192.168.123.14"
+    port = 5001
+
+    print(f"Server: {host}:{port}")
 
     server_socket = socket.socket()
     server_socket.bind((host, port))
+
+    print("Waiting for connection...")
 
     server_socket.listen(2)
     conn, address = server_socket.accept()
